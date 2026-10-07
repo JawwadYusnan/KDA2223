@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>اختبار تفاعلي</title>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+  };
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400&display=swap');
+:root{ --bg:#fdf6e3; --panel:#fffbef; --text:#5c6a72; --muted:#939f91; --primary:#8da101; --primary2:#3a94c5; --border:color-mix(in srgb, var(--text) 18%, transparent); --option-bg:color-mix(in srgb, var(--panel) 88%, var(--primary) 12%); --option-hover:color-mix(in srgb, var(--panel) 80%, var(--primary) 20%); --option-active:color-mix(in srgb, var(--panel) 72%, var(--primary) 28%); --radius:16px; --app-font:'Scheherazade New', Scheherazade, serif; }
+body{ margin:0; font-family:var(--app-font); background:var(--bg); color:var(--text); min-height:100vh; display:flex; justify-content:center; padding:20px; box-sizing:border-box; }
+button,input,table,th,td,label,h1,h2,h3,p,div{ font-family:var(--app-font); }
+.card{ background:var(--panel); width:100%; max-width:600px; border-radius:var(--radius); padding:24px; box-shadow:0 10px 30px rgba(0,0,0,0.3); border:1px solid var(--border); }
+h1{ margin:0 0 10px; font-size:22px; text-align:center; } .desc{ color:var(--muted); font-size:13px; margin-bottom:20px; text-align:center; line-height:1.5; }
+.quizLogoWrap{ width:162px; height:162px; border-radius:50%; overflow:hidden; margin:4px auto 18px; border:1px solid var(--border); background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; }
+.quizLogo{ width:100%; height:100%; object-fit:cover; display:block; }
+.loginIntro{ text-align:center; }
+.loginForm{ width:100%; max-width:420px; margin:0 auto; }
+.loginForm label{ text-align:left; }
+.loginForm input{ text-align:left; }
+.reviewBox{ margin-top:20px; border-top:1px solid var(--border); padding-top:18px; }
+.reviewItem{ border:1px solid var(--border); border-radius:12px; padding:14px; margin-top:12px; background:color-mix(in srgb, var(--panel) 90%, var(--primary) 10%); }
+.badge{ display:inline-block; padding:4px 8px; border-radius:999px; font-size:11px; font-weight:800; margin-bottom:8px; }
+.badge.ok{ background:rgba(34,197,94,.16); color:var(--primary2); }
+.badge.no{ background:rgba(239,68,68,.16); color:#ef4444; }
+.reviewMeta{ font-size:13px; line-height:1.55; color:var(--text); }
+.reviewMeta b{ color:var(--muted); }
+label{ font-size:10px; text-transform:uppercase; font-weight:bold; color:var(--muted); margin-bottom:4px; display:block; }
+.loginForm label{ font-size:12px; }
+.loginForm input{ padding:10px 12px; }
+input{ width:100%; padding:12px; border-radius:10px; border:1px solid var(--border); background:color-mix(in srgb, var(--panel) 92%, var(--text) 8%); color:var(--text); margin-bottom:15px; box-sizing:border-box; outline:none; }
+.loginForm input{ padding:10px 12px; }
+.timerBox{ width:max-content; min-width:118px; margin:0 auto 14px; padding:8px 16px; border-radius:999px; background:linear-gradient(135deg, color-mix(in srgb, var(--primary) 18%, var(--panel) 82%), color-mix(in srgb, var(--primary2) 16%, var(--panel) 84%)); border:1px solid color-mix(in srgb, var(--primary) 42%, var(--border)); color:var(--primary2); font-size:17px; font-weight:800; letter-spacing:.04em; text-align:center; box-shadow:0 8px 22px rgba(0,0,0,.16); }
+.timeEndNotice{ margin:0 0 16px; padding:12px 14px; border-radius:14px; background:color-mix(in srgb, #ef4444 12%, var(--panel) 88%); border:1px solid color-mix(in srgb, #ef4444 46%, var(--border)); color:var(--text); text-align:center; font-size:15px; font-weight:800; }
+.btn{ background:var(--primary); color:#fff; border:none; padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:800; width:100%; transition:0.2s; box-shadow:0 8px 18px rgba(0,0,0,.22); }
+.btn:hover{ filter:brightness(1.1); }
+.btn-back{ background:linear-gradient(135deg, var(--primary), var(--primary2)); color:#fff; border:1px solid rgba(255,255,255,.35); box-shadow:0 0 0 3px rgba(255,255,255,.10), 0 8px 22px rgba(0,0,0,.25); }
+.btn-back:hover{ filter:brightness(1.18); box-shadow:0 0 0 4px rgba(255,255,255,.14), 0 10px 26px rgba(0,0,0,.30); }
+.opt{ display:block; padding:14px; border:1px solid color-mix(in srgb, var(--primary) 35%, var(--border)); border-radius:10px; margin-bottom:10px; cursor:pointer; transition:0.2s; background:var(--option-bg); color:var(--text); font-weight:600; }
+.opt:hover{ background:var(--option-hover); border-color:color-mix(in srgb, var(--primary) 55%, var(--border)); } .opt.active{ border-color:var(--primary); background:var(--option-active); box-shadow:0 0 0 3px color-mix(in srgb, var(--primary) 24%, transparent); }
+.bar{ height:6px; background:rgba(255,255,255,0.05); border-radius:3px; margin-bottom:20px; overflow:hidden; }
+.fill{ height:100%; background:var(--primary); transition:width 0.3s; }
+table{ width:100%; border-collapse:collapse; margin-top:15px; font-size:12px; }
+th, td{ text-align:left; padding:8px; border-bottom:1px solid var(--border); }
+@media (min-width: 901px){ body{ overflow:hidden; } .card{ max-height:calc(100vh - 40px); overflow:auto; } }
+.loginForm{direction:rtl;} .loginForm label,.loginForm input{text-align:right; direction:rtl;} .loginForm label{font-size:14px;} th, td{text-align:right;} b,strong,h1,h2,h3,label,.btn,.opt,.badge,.reviewMeta b{font-weight:400!important;} h2{color:var(--primary2);} .opt{color:var(--text);}
+</style>
+</head>
+<body>
+<div class="card" id="app"></div>
+<script>
+const DATA = {"title":"اختبار تفاعلي","desc":"أجب عن جميع الأسئلة ثم راجع التغذية الراجعة في النهاية.","lang":"ar","randQ":true,"randA":true,"saveData":true,"classLbl":"NO MATRIK","sheetUrl":"https://script.google.com/macros/s/AKfycbzp-XSng3oy_OiG29owRR0HiuQxg8lwui7WZ7TZ7BKVk_d8Rfqh8Cup36ZPNYJcP_tC/exec","logoUrl":"","timerMinutes":0,"hasExplanation":true,"questions":[{"q":"مَا هُوَ التَّعْرِيفُ الصَّحِيحُ لِلْمِيزَانِ الصَّرْفِيِّ؟","choices":["قَاعِدَةٌ نَحْوِيَّةٌ لِمَعْرِفَةِ إِعْرَابِ آخِرِ الْكَلِمَةِ فِي الْجُمْلَةِ.","مُعْجَمٌ لُغَوِيٌّ يُسْتَخْدَمُ لِتَرْجَمَةِ الْكَلِمَاتِ الْعَرَبِيَّةِ إِلَى لُغَاتٍ أُخْرَى.","مِقْيَاسٌ وَضَعَهُ الصَّرْفِيُّونَ لِمَعْرِفَةِ أُصُولِ الْكَلِمَةِ وَزَوَائِدِهَا وَبَيَانِ بِنْيَتِهَا.","أَدَاةٌ لِقِيَاسِ عَدَدِ الْكَلِمَاتِ فِي النَّصِّ الأَدَبِيِّ."],"answerIndex":2,"explain":"فَكِّرْ فِي الْهَدَفِ الأَسَاسِيِّ مِنْ مَعْرِفَةِ أُصُولِ الْكَلِمَةِ وَزَوَائِدِهَا.","rationales":["الإعراب وضبط أواخر الكلمات هو موضوع علم النحو وليس علم الصرف المرتكز على بنيات الكلمات.","الميزان الصرفي مقياس تحليلي للبنية داخل اللغة العربية وليس معجمًا للترجمة.","يعبر هذا التعريف عن الغاية الأساسية من الميزان الصرفي كأداة تحليلية لبنية الكلمة العربية وأصولها.","الميزان الصرفي يزن بنية الكلمة المفردة ولا يعنى بإحصاء الكلمات في النصوص."]},{"q":"مَا هِيَ الأَحْرُفُ الأَسَاسِيَّةُ الَّتِي يَتَكَوَّنُ مِنْهَا الْمِيزَانُ الصَّرْفِيُّ؟","choices":["ا - س - ت","ك - ت - ب","ف - ع - ل","س - أ - ل"],"answerIndex":2,"explain":"تَذَكَّرِ الأَحْرُفَ الثَّلاَثَةَ الَّتِي تُقَابِلُ الفَاءَ وَالعَيْنَ وَاللاَّمَ.","rationales":["تمثل هذه الأحرف صيغة زيادة شائعة وليست أصل الميزان الصرفي.","تعد هذه الألفاظ جذرًا لأمثلة توضيحية وليست أصل أحرف الميزان الصرفي ذاته.","اعتمد الصرفيون أحرف الفاء والعين واللام كمعيار قياسي لوزن أصول الكلمات.","هذه الأحرف تشكل جذرًا لغوياً خاصاً ولا تُستخدم كميزان عام للكلمات."]},{"q":"لِمَاذَا اخْتَارَ عُلَمَاءُ الصَّرْفِ الأَحْرُفَ (ف - ع - ل) لِتَكُونَ مِيزَانًا صَرْفِيًّا؟","choices":["لِأَنَّ هَذِهِ الأَحْرُفَ هِيَ الْوَحِيدَةُ الَّتِي تَقْبَلُ الْحَرَكَاتِ فِي اللُّغَةِ.","لِأَنَّ أَغْلَبَ الْكَلِمَاتِ الْعَرَبِيَّةِ الْمُجَرَّدَةِ تَقُومُ عَلَى ثَلاَثَةِ أَحْرُفٍ أَصْلِيَّةٍ.","لِأَنَّهَا الْحُرُوفُ الأُولَى فِي الأَبْجَدِيَّةِ الْعَرَبِيَّةِ.","لِأَنَّهَا تُعَبِّرُ عَنْ حُرُوفِ الزِّيَادَةِ الْمَجْمُوعَةِ فِي سَأَلْتُمُونِيهَا."],"answerIndex":1,"explain":"السبب يرتبط بالعدد الشائع للحروف الأصلية في الكلمات العربية.","rationales":["جميع الحروف الصامتة في العربية تقبل الحركات وليس فقط أحرف الميزان.","معظم الجذور في اللغة العربية تتكون من ثلاثة أحرف مجردة، مما جعل المقابل الثلاثي هو الأصل القياسي.","الترتيب الأبجدي يبدأ بالألف والباء ولا يقتصر اختيار الميزان على ترتيب الحروف.","حروف الفاء والعين واللام تمثل الأصول الموزونة وليس حروف الزيادة."]},{"q":"فِي كَلِمَةِ (جَلَسَ)، مَا الْحَرْفُ الَّذِي يُمَثِّلُ \"فَاءَ الْفِعْلِ\" فِي الْمِيزَانِ الصَّرْفِيِّ؟","choices":["اللَّام (ل)","الْجِيم (ج)","الأَلِف (ا)","السِّين (س)"],"answerIndex":1,"explain":"ابحث عن الحرف الأصلي الأول في بنية الكلمة.","rationales":["الحرف الثاني من الكلمة الثلاثية يمثل عين الفعل وليس فاءه.","يمثل الحرف الأصلي الأول في الكلمة الثلاثية المجردة فاء الفعل.","هذا الحرف ليس جزءًا من جذر الكلمة المجردة (جلس).","الحرف الثالث والأخير يمثل لام الفعل."]},{"q":"فِي كَلِمَةِ (عَلِمَ)، مَا الْحَرْفُ الَّذِي يُمَثِّلُ \"عَيْنَ الْفِعْلِ\" فِي الْمِيزَانِ الصَّرْفِيِّ؟","choices":["الْفَاء (ف)","الْعَيْن (ع)","اللَّام (ل)","الْمِيم (م)"],"answerIndex":2,"explain":"ركز على الحرف الأصلي الواقع في منتصف الكلمة الثلاثية.","rationales":["حرف الفاء رمز في الميزان وليس حرفًا موجودًا في كلمة (علم).","حرف العين هنا هو الحرف الأصلي الأول، وبالتالي يقابل فاء الفعل.","الحرف الأصلي الثاني في الفعل الثلاثي يقابل العين في الميزان الصرفي.","حرف الميم هو الحرف الأصلي الثالث، ويقابل لام الفعل."]},{"q":"فِي كَلِمَةِ (كَرُمَ)، مَا الْحَرْفُ الَّذِي يُمَثِّلُ \"لاَمَ الْفِعْلِ\" فِي الْمِيزَانِ الصَّرْفِيِّ؟","choices":["الرَّاء (ر)","الْمِيم (م)","الْعَيْن (ع)","الْكَاف (ك)"],"answerIndex":1,"explain":"انظر إلى الحرف الأصلي الأخير في الفعل.","rationales":["الحرف الثاني من الجذر يمثل عين الفعل.","الحرف الأصلي الثالث في الجذر يتطابق مع لام الفعل في الوزن الصرفي.","العين هي الرمز الصرفي للحرف الثاني وليست الحرف الثالث من (كَرُمَ).","الحرف الأول في الكلمة الثلاثية يمثل فاء الفعل."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ الصَّحِيحُ لِلْفِعْلِ (كَتَبَ) مَعَ مُرَاعَاةِ الضَّبْطِ بِالْحَرَكَاتِ؟","choices":["فَعَلَ","فَعِلَ","فِعَالٌ","فَعُلَ"],"answerIndex":0,"explain":"طابق حركات الفتحة على كل حرف من حروف الكلمة مع الميزان.","rationales":["تتطابق حركات الفتح في الأحرف الثلاثة للفعل (كَتَبَ) مع حركات الميزان (فَعَلَ).","هذا الوزن يحتوي على كسرة في العين بينما عين (كَتَبَ) مفتوحة.","هذا صيغة اسمية مزيدة بينما (كَتَبَ) فعل ثلاثي مجرد.","هذا الوزن يضم العين بينما العين في الفعل (كَتَبَ) مفتوحة."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ الصَّحِيحُ لِلْفِعْلِ (عَلِمَ) مَعَ مُرَاعَاةِ الضَّبْطِ بِالْحَرَكَاتِ؟","choices":["فَاعِلٌ","فَعَلَ","فَعُلَ","فَعِلَ"],"answerIndex":3,"explain":"لاحظ حركة الحرف الأوسط (اللام) في الفعل.","rationales":["تتضمن هذه الصياغة ألف زيادة بينما الفعل (عَلِمَ) مجرد ثلاثي.","عين هذا الوزن مفتوحة بينما الحرف الأوسط في (عَلِمَ) مكسور.","عين هذا الوزن مضمومة بينما الحرف الأوسط في (عَلِمَ) مكسور.","كسر الحرف الثاني الأصلي (اللام) ينعكس مباشرة على عين الميزان الصرفي لتصبح مكسورة."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ الصَّحِيحُ لِلْفِعْلِ (كَرُمَ) مَعَ الضَّبْطِ بِالْحَرَكَاتِ؟","choices":["فَعَلَ","فَعُلَ","مَفْعُولٌ","فَعِلَ"],"answerIndex":1,"explain":"انتبه للضمة الموجودة على الحرف الثاني من الفعل.","rationales":["العين هنا مفتوحة بينما العين في (كَرُمَ) مضمومة.","انضمام عين الفعل (الراء) يقتضي انضمام عين الميزان الصرفي في المقابل.","هذا الوزن خاص بالأسماء المزيدة وليس لل أفعال الثلاثية المجردة.","العين هنا مكسورة بينما عين الفعل (كَرُمَ) مضمومة."]},{"q":"أَيٌّ مِنَ الأَسْبَابِ الآتِيَةِ كَانَ عَامِلًا رَئِيسِيًّا فِي ظُهُورِ الْمِيزَانِ الصَّرْفِيِّ قَدِيمًا؟","choices":["رَغْبَةُ الْعُلَمَاءِ فِي اخْتِرَاعِ أَبْجَدِيَّةٍ كِتَابِيَّةٍ جَدِيدَةٍ.","تَبْسِيطُ الْمَنَاهِجِ الدِّرَاسِيَّةِ لِلأَطْفَالِ فِي الْمَدَارِسِ الحديثة.","اتِّسَاعُ رُقْعَةِ الدَّوْلَةِ الإِسْلاَمِيَّةِ وَظُهُورُ اللَّحْنِ فِي اللُّغَةِ.","إِلْغَاءُ اسْتِخْدَامِ الْمُعَاجِمِ الْعَرَبِيَّةِ الْقَدِيمَةِ."],"answerIndex":2,"explain":"تَذَكَّرِ الأَثَرَ النَّاجِمَ عَنِ اخْتِلاَطِ الْعَرَبِ بِالشُّعُوبِ الأُخْرَى.","rationales":["كان الهدف ضبط بنية اللغة العربية الكائنة وليس اختراع أبجدية جديدة.","نشأ الميزان الصرفي في العصور الإسلامية المبكرة لحماية صون اللغة وليس لمناهج حديثة.","دعا اختلاط العرب بغيرهم وظهور الأخطاء اللغوية (اللحن) العلماء إلى وضع قواعد لضبط الكلمات وبنيتها.","ساعد الميزان الصرفي في تنظيم المعاجم وتسهيل البحث فيها ولم يلغها."]},{"q":"مَنْ هُوَ الْعَالِمُ اللُّغَوِيُّ الَّذِي بَرَزَ كَأَحَدِ أَبْرَزِ المَؤَسِّسِينَ فِي تَطَوُّرِ الدِّرَاسَةِ الصَّرْفِيَّةِ إِلى جَانِبِ سِيبَوَيْهِ؟","choices":["الْخَلِيلُ بْنُ أَحْمَدَ الْفَرَاهِيدِيُّ","ابْنُ جِنِّيٍّ","ابْنُ مَالِكٍ","أَبُو الأَسْوَدِ الدُّؤَلِيُّ"],"answerIndex":0,"explain":"هو أستاذ سيبويه وواضع معجم العين.","rationales":["يُعد الفراهيدي من أوائل أئمة اللغة الذين وضعوا اللبنات الأولى لتأسيس علم الصرف والميزان الصرفي.","ابن جني عالم متأخر جاء بعد مرحلة التأسيس الأولى التي قادها الخليل وسيبويه.","ابن مالك صاحب الألفية من علماء القرون المتأخرة مقارنة بتأسيس الميزان الصرفي.","اشتهر أبو الأسود الدؤلي بتشكيل المصحف وتأسيس النحو الأول وليس بتطوير الميزان الصرفي تحديداً."]},{"q":"عِنْدَ تَحْلِيلِ كَلِمَةِ (اسْتَغْفَرَ)، مَا هِيَ حُرُوفُ الزِّيَادَةِ فِي هَذِهِ الْكَلِمَةِ؟","choices":["ا - غ - ر","س - ف - ر","غ - ف - ر","ا - س - ت"],"answerIndex":3,"explain":"احذف أحرف الجذر الثلاثي (غفر) لمعرفة الزوائد.","rationales":["الغين والراء حرفان أصليان من جذر الفعل.","الفاء والراء حرفان أصليان من الجذر الصرفي للكلمة.","هذه الحروف هي الجذوع الأصلية للكلمة وليست الحروف المزيدة.","الأحرف الثلاثة الأولى (الألف والسين والتاء) تُزاد على الجذر الثلاثي (غفر) لتكوين صيغة الاستفعال."]},{"q":"مَا هِيَ الْحُرُوفُ الأَصْلِيَّةُ (الْجِذْرُ) لِكَلِمَةِ (اسْتَغْفَرَ)؟","choices":["ف - غ - ر","ا - س - ت","غ - ف - ر","غ - س - ت"],"answerIndex":2,"explain":"جرد الكلمة من حروف السابقة المكونة من ثلاثة أحرف.","rationales":["ترتيب الحروف الأصلية الصحيح هو الغين ثم الفاء ثم الراء.","تمثل هذه الحروف سابقة الزيادة وليست أصل معنى الفعل.","عند تجريد الفعل من أحرف الزيادة (الألف والسين والتاء) يتبقى الجذر الثلاثي (غفر).","السين والتاء من حروف الزيادة وليسا من الجذر."]},{"q":"مَا الْكَلِمَةُ الَّتِي جَمَعَ فِيهَا الصَّرْفِيُّونَ حُرُوفَ الزِّيَادَةِ لِتَسْهِيلِ حِفْظِهَا؟","choices":["سَأَلْتُمُونِيْهَا","فَعَلْتُمُوهَا","اسْتَخْرَجْتُمُوهَا","كَتَبْتُمُوهَا"],"answerIndex":0,"explain":"عبارة شهيرة تبدأ بفعل السؤال في صيغة الماضي.","rationales":["تجمع هذه العبارة العشرة أحرف التي يجوز أن تُزاد على أصول الكلمات في العربية.","هذه جملة فعلية وليست التجميع المعياري الصرفي لحروف الزيادة.","هذا تطبيق على فعل مزيد وليس العبارة المجمعة لحروف الزيادة.","هذا صيغة تصريفية لفعل ولا تتضمن حصر كافة أحرف الزيادة العشرة."]},{"q":"عِنْدَ مَقَارَنَةِ كَلِمَةِ (كَاتِبٌ) بِجِذْرِهَا (كَتَبَ)، مَا هُوَ حَرْفُ الزِّيَادَةِ فِي الْكَلِمَةِ؟","choices":["الْبَاء (ب)","التَّاء (ت)","الْكَاف (ك)","الأَلِف (ا)"],"answerIndex":3,"explain":"قارن الأحرف الموجودة بين الاسم (كاتب) والفعل المجرد (كتب).","rationales":["الباء هي لام الفعل الأصلية.","التاء هي عين الفعل الأصلية.","الكاف هي فاء الفعل الأصلية وليست حرفًا مزيدًا.","الألف الواقعة بعد الفاء (الكاف) هي الحرف الوحيد المزيد على الأصول الثلاثية (ك-ت-ب)."]},{"q":"مَا هِيَ الْحُرُوفُ الأَصْلِيَّةُ فِي كَلِمَةِ (مَكْتُوبٌ)؟","choices":["ت - و - ب","م - و - ب","م - ك - ت","ك - ت - ب"],"answerIndex":3,"explain":"استخرج الجذر الثلاثي الذي تشترك فيه كافة مشتقات الكتابة.","rationales":["الواو حرف زيادة أُضيف للدلالة على صيغة المفعول.","الميم والواو من حروف الزيادة وليستا أصلين.","الميم حرف مزيد يقع في بداية اسم المفعول.","تُمثل أحرف الكاف والتاء والباء الأصول التي تبنى عليها الكلمة بعد حذف الميم والواو الزائدتين."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ الصَّحِيحُ لِكَلِمَةِ (اسْتَخْرَجَ)؟","choices":["تَفَاعَلَ","أَنْفَعَلَ","إِفْتَعَلَ","اسْتَفْعَلَ"],"answerIndex":3,"explain":"حافظ على أحرف الزيادة الثلاثة الأولى كما هي وزد عليها (فعل).","rationales":["هذا وزن مختلف يبدأ بالتاء ولا يطابق تركيب (استخرج).","هذا الوزن يحوي النون المزيدة، بينما الكلمة تحتوي على السين والتاء.","يفتقد هذا الوزن لحرف السين المزيد الموجود في (استخرج).","تنزل أحرف الزيادة (ا-س-ت) كما هي في الميزان، وتُقابل الأصول (خ-ر-ج) بـ (ف-ع-ل)."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ لِكَلِمَةِ (كَاتِبٌ)؟","choices":["فَاعِلٌ","فَعُولٌ","مَفْعُولٌ","فِعَالٌ"],"answerIndex":0,"explain":"طابق الألف المزيدة بعد الحرف الأول في الميزان الصرفي.","rationales":["تُقابل الكاف بالفاء، والألف بالزيادة، والتاء بالعين، والباء باللام لتصبح (فَاعِلٌ).","يحتوي هذا الوزن على واو زائدة لا توجد في كلمة (كاتب).","هذا وزن لأسماء المفعولين مثل (مكتوب).","هذا وزن لأسماء مثل (كِتَابٌ) بكسر الفاء."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ لِكَلِمَةِ (مَكْتُوبٌ)؟","choices":["فِعَالٌ","فَاعِلٌ","مَفْعَلٌ","مَفْعُولٌ"],"answerIndex":3,"explain":"انقل الميم المزيدة في الأول والواو المزيدة قبل الآخر إلى الميزان.","rationales":["هذا وزن مختلف ولا يبدأ بالميم المزيدة.","هذا وزن اسم الفاعل وليس اسم المفعول.","يفتقد هذا الوزن حرف الواو المزيد قبل الحرف الأخير.","تُنقل الميم والواو المزيدتان إلى الميزان الصرفي مع مقابلة الأصول (ك-ت-ب) بـ (ف-ع-ل)."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ لِكَلِمَةِ (كِتَابٌ)؟","choices":["فَاعِلٌ","فَعَالٌ","فِعَالٌ","مَفْعُولٌ"],"answerIndex":2,"explain":"لاحظ حركة الكسرة على الحرف الأول وموقع الألف المزيدة.","rationales":["الألف في (فاعل) تقع بعد الحرف الأول وليس بعد الثاني.","الحرف الأول في (كِتَابٌ) مكسور وليس مفتوحاً.","كسر الحرف الأول وزيادة الألف قبل الآخر يعطي الوزن الصرفي (فِعَالٌ).","تبدأ هذه الصيغة بميم زائدة لا توجد في كلمة (كتاب)."]},{"q":"مَا هُوَ الْوَزْنُ الصَّرْفِيُّ لِكَلِمَةِ (أَخْرَجَ)؟","choices":["فَاعَلَ","اسْتَفْعَلَ","فَعَّلَ","أَفْعَلَ"],"answerIndex":3,"explain":"انقل همزة التعدية المزيدة في البداية إلى الميزان.","rationales":["تكون الزيادة في هذا الوزن بالألف بعد الفاء وليس بالهمزة في الأول.","يتضمن هذا الوزن ثلاثة أحرف زيادة بينما في (أخرج) حرف زيادة واحد.","يعتمد هذا الوزن على تضعيف العين ولا يحتوي على همزة قطع مسبوقة.","تُزاد الهمزة المفتوحة في أول الميزان الصرفي لمقابلة الهمزة المزيدة في (أَخْرَجَ)."]},{"q":"عِنْدَ الْبَحْثِ عَنْ كَلِمَةِ (مَكْتَبَةٌ) فِي الْمُعْجَمِ، مَا هُوَ الْجِذْرُ ثُلاَثِيُّ الأَصْلِ الَّذِي نَبْحَثُ تَحْتَهُ؟","choices":["م - ت - ب","ك - ت - ب - هـ","م - ك - ت","ك - ت - ب"],"answerIndex":3,"explain":"جرد الاسم من ميم الزيادة وتاء التأنيث الوصول للأصل الثلاثي.","rationales":["حذف الكاف يلغي حرفًا أصليًا من أصول الكلمة.","التاء المربوطة حرف تأنيث زائد وليست جزءًا من الجذر الصرفي.","الميم حرف مزيد ولا يُعد جزءًا من باب الجذر الأصلي.","يتطلب البحث المعجمي تجريد الكلمة من الميم والتاء المربوطة للوصول إلى المادة الأصلية (كتب)."]},{"q":"مَا هُوَ الْجِذْرُ اللُّغَوِيُّ الأَصْلِيُّ لِكَلِمَةِ (اسْتِخْرَاجٌ)؟","choices":["ا - س - ت","ت - خ - ر","خ - ر - ج","خ - ر - ج - ا"],"answerIndex":2,"explain":"ابحث عن الأحرف الثابتة التي تحمل المعنى الأساسي للظهور أو الخروج.","rationales":["تمثل هذه الأحرف سابقة الزيادة وليست جذر الفعل.","التاء حرف زيادة والجيم أصل أُسقط في هذا الخيار.","تجريد المصدر من أحرف الزيادة (الألف والسين والتاء والألف الممدودة) يرجعنا إلى الفعل المجرد (خرج).","الألف الواقعة قبل الأخير في المصدر هي حرف زيادة."]},{"q":"عِنْدَ حَذْفِ حَرْفٍ أَصْلِيٍّ مِنَ الْكَلِمَةِ يُحْذَفُ مَا يُقَابِلُهُ فِي الْمِيزَانِ. مَا هُوَ وَزْنُ الْفِعْلِ (قُلْ)؟","choices":["فَعْلْ","فُلْ","عُلْ","فِلْ"],"answerIndex":1,"explain":"حرف العين في الميزان يُحذف لأن الحرف الأوسط الأصلي مفقود في أمر (قل).","rationales":["لم يُحذف في هذا الوزن أي حرف بينما حُذِف الحرف الأوسط من الفعل.","حُذِفت عين الفعل (الواو من أصل قال/يقول)، فيحذف ما يقابلها (العين) في الميزان ليتبقى (فُلْ).","الفاء هي المقابل للقاف الموجودة في (قل) فلا يجوز حذفها.","حركة الفاء في (قُلْ) هي الضمة وليست الكسرة."]},{"q":"أَيٌّ مِنَ الأَوْزَانِ الآتِيَةِ يُمَثِّلُ الْوَزْنُ الصَّرْفِيُّ لِكَلِمَةِ (قَاضٍ) بَعْدَ حُدُوثِ الإِعْلاَلِ بِالْحَذْفِ؟","choices":["فَاعِلٌ","فَاعِي","فَعَلٌ","فَاعٍ"],"answerIndex":3,"explain":"تذكر أن حذف الياء الأخيرة من الاسم المنقوص يتطلب حذف لام الميزان.","rationales":["هذا الوزن هو الأصل قبل حذف الياء والتنوين.","هذه الصيغة لم تُحذف منها اللام لتناسب الكلمة المحذوفة الياء.","هذا وزن ثلاثي مجرد ولا يعبر عن صياغة اسم الفاعل.","الأصل هو (قَاضِيٌ) على وزن (فَاعِلٌ)، وحين حُذِفت الياء (لام الفعل) حُذِفت اللام من الميزان لتصبح (فَاعٍ)."]},{"q":"مَا الْمَعْنَى الصَّرْفِيُّ الَّذِي تُفِيدُهُ زِيَادَةُ الْهَمْزَةِ فِي الْوَزْنِ (أَفْعَلَ) كَمَا فِي الْفِعْلِ (أَخْرَجَ)؟","choices":["الْمُبَالَغَةُ","الطَّلَبُ وَالاِسْتِدْعَاءُ","الْمُشَارَكَةُ","التَّعْدِيَةُ"],"answerIndex":3,"explain":"تأمل كيف ينقل هذا الوزن الفعل من الاقتصار على الفاعل إلى تعديه لمفعول.","rationales":["المبالغة تُستفاد من صيغ خاصة أخرى كصيغ المبالغة المعروفة.","معنى الطلب ينشأ غالباً عن صيغة (استفعل) وليس (أفعل).","تفيد صيغة (فاعل) المشاركة عادة مثل (شارك) و(كاتب).","تحول الهمزة الفعل اللازم (خرج) إلى فعل متعدٍ (أخرج) ينصب مفعولاً به."]},{"q":"مَا الدَّلاَلَةُ الْعَامَّةُ الَّتِي يُفِيدُهَا الْوَزْنُ (اسْتَفْعَلَ) كَمَا فِي الْفِعْلِ (اسْتَخْرَجَ)؟","choices":["التَّعْدِيَةُ المجردة","النَّفْيُ","الطَّلَبُ / الاِسْتِدْعَاءُ","الْفِعْلُ الْمُجَرَّدُ"],"answerIndex":2,"explain":"ماذا يطلب الشخص عندما يستغفر أو يستخرج شيئاً؟","rationales":["التعدية المجردة هي الأثر الرئيس لصيغة (أفعل).","الأوزان الصرفية لا تُبنى لإفادة أدوات النفي.","زيادة الألف والسين والتاء تفيد غالباً معنى طلب الفعل أو الاستدعاء.","الفعل هنا مزيد بثلاثة أحرف وليس مجرداً."]},{"q":"إِذَا أَرَدْنَا الْبَحْثَ عَنْ كَلِمَةِ (اسْتِخْرَاجٌ) فِي الْمُعْجَمِ، مَا هُوَ الْبَابُ الَّذِي نَبْحَثُ فِيهِ بَعْدَ تَحْلِيلِهَا صَرْفِيًّا؟","choices":["بَابُ (اسْتَخْرَجَ)","بَابُ (خَرَجَ)","بَابُ (أَخْرَجَ)","بَابُ (تَخَرَّجَ)"],"answerIndex":1,"explain":"ارجع إلى الجذر الثلاثي المكون من الخاء والراء والجيم.","rationales":["المعاجم لا تُفرد أبواباً للأفعال المزيدة بل للجذور المجردة.","يتم الوصول للكلمة في المعجم بالرد إلى مادتها وجذرها المجرد (خرج).","هذا فعل مزيد بالهمزة والبحث يكون في الأصل الثلاثي المجرد.","هذا صيغة فعل مزيد آخر وليس الأصل المجرد."]}]}; 
+const UI = {"name":"الاسم الكامل","class":"NO MATRIK","start":"ابدأ الاختبار","next":"التالي","back":"رجوع","finish":"إنهاء","retake":"إعادة الاختبار","rank":"أفضل 10 نتائج","saving":"جارٍ حفظ البيانات...","result":"النتيجة","q":"س","tableName":"الاسم","tableClass":"NO MATRIK","percent":"%","alertInfo":"يرجى إدخال المعلومات.","alertChoose":"يرجى اختيار إجابة.","review":"مراجعة الإجابات","questionLabel":"السؤال","answerLabel":"الإجابة","explanationLabel":"الشرح","correct":"صحيح","incorrect":"غير صحيح","feedbackCorrect":"الإجابة صحيحة، لا توجد ملاحظات.","feedbackWrong":"الإجابة لا توافق الفكرة الأساسية.","noRefNote":"لم يتم العثور على شرح في ملف الأسئلة المرفوع.","timeEnd":"انتهى الوقت"};
+let state = { mode:'login', idx:0, ans:[], name:'', class:'', qs:[], loading:false, ranking:[], endTime:0, remaining:0, timeEnded:false };
+let timerInterval = null;
+function esc(v){ return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function formatTime(ms){ const total = Math.max(0, Math.ceil(ms/1000)); const m = Math.floor(total/60); const s = total % 60; return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); }
+function startTimer(){ if(timerInterval) clearInterval(timerInterval); if(!DATA.timerMinutes) return; state.endTime = Date.now() + DATA.timerMinutes * 60000; timerInterval = setInterval(() => { state.remaining = state.endTime - Date.now(); if(state.remaining <= 0){ clearInterval(timerInterval); timerInterval = null; state.timeEnded = true; finish(); } else if(state.mode === 'quiz') { const el = document.getElementById('timerBox'); if(el) el.textContent = formatTime(state.remaining); } }, 1000); }
+function timerHtml(){ return DATA.timerMinutes && state.mode === 'quiz' ? '<div class="timerBox" id="timerBox">' + formatTime(state.endTime - Date.now()) + '</div>' : ''; }
+function buildReview(){
+  return '<div class="reviewBox"><h3 style="text-align:center; margin:0 0 12px;">' + UI.review + '</h3>' +
+    state.qs.map((q,i) => {
+      const picked = state.ans[i];
+      const ok = picked === q.answerIndex;
+      const userAns = picked === null || picked === undefined ? '-' : q.choices[picked];
+      const selectedRationale = q.rationales && picked !== null && picked !== undefined ? q.rationales[picked] : "";
+      const correctRationale = q.rationales ? q.rationales[q.answerIndex] : "";
+      const fb = selectedRationale || correctRationale || q.explain || (ok ? UI.feedbackCorrect : UI.feedbackWrong + " " + UI.noRefNote);
+      return '<div class="reviewItem">' +
+        '<span class="badge ' + (ok ? 'ok' : 'no') + '">' + (ok ? UI.correct : UI.incorrect) + '</span>' +
+        '<div class="reviewMeta"><b>' + UI.questionLabel + ':</b> ' + esc(q.q) + '</div>' +
+        '<div class="reviewMeta"><b>' + UI.answerLabel + ':</b> ' + esc(userAns) + '</div>' +
+        '<div class="reviewMeta"><b>' + UI.explanationLabel + ':</b> ' + esc(fb) + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(state.mode==='login'){
+    const logoHtml = DATA.logoUrl ? '<div class="quizLogoWrap"><img class="quizLogo" src="' + esc(DATA.logoUrl) + '" alt="Logo"></div>' : '';
+    app.innerHTML = '<div class="loginIntro">' + logoHtml + '<h1>' + DATA.title + '</h1><p class="desc">' + DATA.desc + '</p></div>' +
+      '<div class="loginForm"><label>' + UI.name + '</label><input type="text" id="u_name" value="' + esc(state.name) + '">' +
+      '<label>' + UI.class + '</label><input type="text" id="u_class" value="' + esc(state.class) + '">' +
+      '<button class="btn" onclick="start()">' + UI.start + '</button></div>';
+  } else if(state.mode==='quiz'){
+    const q = state.qs[state.idx];
+    const backBtn = state.idx > 0 ? '<button class="btn btn-back" style="margin-top:10px;" onclick="back()">' + UI.back + '</button>' : '';
+    const finishBtn = state.idx === state.qs.length - 1 ? '<button class="btn" style="margin-top:10px;" onclick="next()">' + UI.finish + '</button>' : '';
+    app.innerHTML = timerHtml() + '<div class="bar"><div class="fill" style="width:' + ((state.idx)/state.qs.length)*100 + '%"></div></div>' +
+      '<div style="font-size:11px; color:var(--muted); margin-bottom:10px;">' + UI.q + ' ' + (state.idx+1) + ' / ' + state.qs.length + '</div>' +
+      '<h2 style="font-size:17px; margin-bottom:20px;">' + q.q + '</h2>' +
+      q.choices.map((c,i) => '<div class="opt ' + (state.ans[state.idx]===i?'active':'') + '" onclick="setAns(' + i + ')">' + c + '</div>').join('') +
+      finishBtn + backBtn;
+  } else if(state.mode==='result'){
+    let score = state.ans.reduce((acc, a, i) => acc + (a === state.qs[i].answerIndex ? 1 : 0), 0);
+    let pct = Math.round((score/state.qs.length)*100);
+    let html = '<h1>' + UI.result + '</h1>' + (state.timeEnded ? '<div class="timeEndNotice">' + UI.timeEnd + '</div>' : '') + '<div style="font-size:48px; font-weight:900; color:var(--primary2);">' + pct + '% (' + score + '/' + state.qs.length + ')</div>';
+    html += buildReview();
+    if(DATA.saveData){
+      html += '<div style="margin-top:20px; border-top:1px solid var(--border); padding-top:20px;"><h3 style="text-align:center;">' + UI.rank + '</h3>';
+      if(state.loading) html += '<p>' + UI.saving + '</p>';
+      else if(state.ranking.length > 0) {
+        html += '<table><tr><th>#</th><th>' + UI.tableName + '</th><th>' + UI.tableClass + '</th><th>' + UI.percent + '</th></tr>' + 
+          state.ranking.map((r,i) => '<tr><td>' + (i+1) + '</td><td>' + esc(r.name) + '</td><td>' + esc(r.class) + '</td><td>' + esc(r.percent) + '</td></tr>').join('') + '</table>';
+      }
+      html += '</div>';
+    }
+    html += '<button class="btn" style="margin-top:20px;" onclick="location.reload()">' + UI.retake + '</button>';
+    app.innerHTML = html;
+  }
+  if (window.MathJax && window.MathJax.typeset) window.MathJax.typeset();
+}
+function start(){
+  state.name = document.getElementById('u_name').value.trim(); 
+  state.class = document.getElementById('u_class').value.trim();
+  if(!state.name || !state.class) return alert(UI.alertInfo);
+  state.qs = JSON.parse(JSON.stringify(DATA.questions));
+  if(DATA.randQ) state.qs.sort(() => Math.random()-0.5);
+  if(DATA.randA) state.qs.forEach(q => {
+    const originalCorrect = q.choices[q.answerIndex];
+    const rationales = Array.isArray(q.rationales) ? q.rationales : [];
+    const pairs = q.choices.map((choice, idx) => ({ choice, rationale: rationales[idx] || "" }));
+    pairs.sort(() => Math.random()-0.5);
+    q.choices = pairs.map(p => p.choice);
+    q.rationales = pairs.map(p => p.rationale);
+    q.answerIndex = q.choices.indexOf(originalCorrect);
+  });
+  state.ans = new Array(state.qs.length).fill(null);
+  state.timeEnded = false;
+  state.mode = 'quiz'; startTimer(); render();
+}
+function setAns(i){ state.ans[state.idx] = i; if(state.idx < state.qs.length - 1){ state.idx++; } render(); }
+function back(){ if(state.idx > 0){ state.idx--; render(); } }
+function next(){
+  if(state.ans[state.idx]===null) return alert(UI.alertChoose);
+  if(state.idx < state.qs.length - 1){ state.idx++; render(); }
+  else { finish(); }
+}
+async function finish(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  state.mode = 'result'; render();
+  if(DATA.saveData && DATA.sheetUrl){
+    state.loading = true; render();
+    let score = state.ans.reduce((acc, a, i) => acc + (a === state.qs[i].answerIndex ? 1 : 0), 0);
+    let pct = Math.round((score/state.qs.length)*100);
+    try {
+      await fetch(DATA.sheetUrl, { method:'POST', body: JSON.stringify({name:state.name, class:state.class, score:score, percent:pct}), mode:'no-cors' });
+      setTimeout(async () => {
+        try { const res = await fetch(DATA.sheetUrl); state.ranking = await res.json(); render(); } catch(e){}
+        state.loading = false; render();
+      }, 1500);
+    } catch(e){ state.loading = false; render(); }
+  }
+}
+render();
+</script>
+</body></html>
